@@ -47,6 +47,5 @@ The app uses Streamlit's `components.html` to embed the Ping Pong game into a St
 This project is licensed under the MIT License. Feel free to use, modify, and distribute it as per the license terms.
 
 ## Acknowledgements
-- The Ping Pong game is created using HTML, CSS, and JavaScript.
+- The Ping Pong game is created using HTML, CSS, Python and JavaScript.
 - Thanks to Streamlit for providing an easy-to-use framework for building interactive web apps.
-```
