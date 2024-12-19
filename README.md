@@ -1,5 +1,3 @@
-Here’s a sample `README.md` file for your Streamlit app:
-
 ```markdown
 # Ping Pong Game Streamlit App
 
@@ -41,16 +39,13 @@ The app uses Streamlit's `components.html` to embed the Ping Pong game into a St
 - **App Layout**: Modify the Streamlit app (`app.py`) to adjust the title, layout, or embedded frame dimensions.
 
 ## Screenshots
-![Screenshot of the Ping Pong Game](screenshot.png) <!-- Add an actual screenshot if available -->
+![image](https://github.com/user-attachments/assets/7f44bc46-c6ee-45b2-baed-1ec131c30a4e)
+![image](https://github.com/user-attachments/assets/eeb683fb-9288-42c4-a603-e1de002c083b)
+
 
 ## License
 This project is licensed under the MIT License. Feel free to use, modify, and distribute it as per the license terms.
 
 ## Acknowledgements
-- The Ping Pong game is created using HTML, CSS, and JavaScript.
+- The Ping Pong game is created using HTML, CSS, Python and JavaScript.
 - Thanks to Streamlit for providing an easy-to-use framework for building interactive web apps.
-```
-
-### Next Steps:
-- Add a screenshot of your app in action and name it `screenshot.png`.
-- Replace the placeholder "MIT License" with the appropriate license for your project, if necessary.
