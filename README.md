@@ -1,7 +1,7 @@
 ## Screenshots
 ![image](https://github.com/user-attachments/assets/6db8202a-aa3e-4266-a33f-6acec5cf1d09)
 ![image](https://github.com/user-attachments/assets/4d1d17d3-164e-4d62-a09c-e23d9ca4ed40)
-[Visit Site to Play] ([https://www.example.com](https://larvapingpong.streamlit.app/))
+[Visit Site to Play] ([https://larvapingpong.streamlit.app/])
 
 ```markdown
 # Ping Pong Game Streamlit App
