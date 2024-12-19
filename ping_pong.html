@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ping Pong</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-image: url("https://i.ytimg.com/vi/0R0iAZRPrBg/maxresdefault.jpg");
+      background-size: cover;
+      background-position: center;
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+    #landing-page {
+      text-align: center;
+      color: #fff;
+    }
+    #landing-page h1 {
+      font-size: 48px;
+    }
+    #landing-page button {
+      border-radius: 10px;
+      padding: 10px 20px;
+      font-size: 18px;
+      background-color: #4CAF50;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+    #landing-page button:hover {
+      background-color: #3e8e41;
+    }
+    #game-container {
+      display: none;
+      width: 100vw;
+    }
+    #canvas {
+      border: 1px solid black;
+      width: 100%;
+      height: 600px;
+    }
+    .translucent-bg {
+      background-color: rgba(255, 255, 255, 0.5);
+      padding: 20px;
+      border-radius: 10px;
+      width: 90%;
+      height: 680px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0 auto;
+    }
+    .score-box {
+      background-color: #4CAF50;
+      color: #fff;
+      padding: 10px;
+      border-radius: 10px;
+      width: 100%;
+      text-align: center;
+      margin-bottom: 20px;
+      position: relative;
+      height: 60px; 
+    }
+    .score-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+    }
+    #round-number {
+      font-size: 24px;
+    }
+    #player1-score {
+      font-size: 24px;
+      margin-right: 20px;
+    }
+    #player2-score {
+      font-size: 24px;
+      margin-left: 20px;
+    }
+    /* Modal styles */
+    .modal-content {
+      background-color: #f2f2f2;
+      border: none;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+    }
+    .modal-header {
+      background-color: #4CAF50;
+      color: #fff;
+      padding: 10px;
+      border-bottom: none;
+    }
+    .modal-header .close {
+      color: #fff;
+      font-size: 24px;
+      opacity: 1;
+    }
+    .modal-body {
+      padding: 20px;
+    }
+    .form-group {
+      margin-bottom: 40px;
+    }
+    .form-group label:nth-child(2) {
+      margin-top: 10px;
+    }
+    .form-control {
+      border: none;
+      border-radius: 10px;
+      padding: 10px;
+      font-size: 16px;
+    }
+    .btn {
+      border: none;
+      border-radius: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: #fff;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+    .btn:hover {
+      background-color: #3e8e41;
+    }
+    .toast {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: #f44336;
+      color: #fff;
+      padding: 10px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+    }
+  </style>
+</head>
+<body>
+  <div id="landing-page">
+    <h1>Ping Pong</h1>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#playerNamesModal">Start Game</button>
+  </div>
+  <div id="game-container" class="container position-relative">
+    <div class="score-box">
+      <div class="score-info">
+        <div>
+          <h5 id="player1-score"></h5>
+        </div>
+        <h5 id="round-number"></h5>
+        <div>
+          <h5 id="player2-score"></h5>
+        </div>
+      </div>
+    </div>
+    <div class="translucent-bg">
+      <canvas id="canvas"></canvas>
+    </div>
+  </div>
+
+  <!-- Modal for player names input -->
+  <div class="modal fade" id="playerNamesModal" tabindex="-1" role="dialog" aria-labelledby="playerNamesModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="playerNamesModalLabel">Enter Player Names, Number of Rounds and Colors</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="player-names-form">
+            <div class="form-group">
+              <label for="player1-name">Player 1 Name:</label>
+              <input type="text" class="form-control" id="player1-name" placeholder="Player 1 Name" value="Player 1">
+              <br>
+              <label for="player1-color">Player 1 Color:</label>
+              <input type="color" class="form-control" id="player1-color" value="#FF0000">
+            </div>
+            <div class="form-group">
+              <label for="player2-name">Player 2 Name:</label>
+              <input type="text" class="form-control" id="player2-name" placeholder="Player 2 Name" value="Player 2">
+              <br>
+              <label for="player2-color">Player 2 Color:</label>
+              <input type="color" class="form-control" id="player2-color" value="#0000FF">
+            </div>
+            <div class="form-group">
+              <label for="ball-color">Ball Color:</label>
+              <input type="color" class="form-control" id="ball-color" value="#00FF00">
+            </div>
+            <div class="form-group">
+              <label for="ball-speed">Ball Speed:</label>
+              <input type="number" class="form-control" id="ball-speed" value="5" min="1">
+            </div>
+            <div class="form-group">
+              <label for="number-of-rounds">Number of Rounds:</label>
+              <input type="number" class="form-control" id="number-of-rounds" placeholder="Number of Rounds" value="3">
+            </div>
+            <p>Player 1: W and S keys</p>
+            <p>Player 2: Up and Down arrow keys</p>
+            <button type="submit" class="btn">Start Game</button>
+            <button type="button" class="btn" data-dismiss="modal">Close</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>
+  <script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    const landingPage = document.getElementById('landing-page');
+    const gameContainer = document.getElementById('game-container');
+    const playerNamesForm = document.getElementById('player-names-form');
+    const player1NameInput = document.getElementById('player1-name');
+    const player2NameInput = document.getElementById('player2-name');
+    const player1ColorInput = document.getElementById('player1-color');
+    const player2ColorInput = document.getElementById('player2-color');
+    const ballColorInput = document.getElementById('ball-color');
+    const ballSpeedInput = document.getElementById('ball-speed');
+    const numberOfRoundsInput = document.getElementById('number-of-rounds');
+    const roundNumber = document.getElementById('round-number');
+    const player1Score = document.getElementById('player1-score');
+    const player2Score = document.getElementById('player2-score');
+    const modal = document.getElementById('playerNamesModal');
+
+    // Set the dimensions of the canvas
+    canvas.width = window.innerWidth - 40;
+    canvas.height = 600;
+
+    // Define the paddles and ball
+    let paddle1 = {
+      x: 20,
+      y: canvas.height / 2 - 50,
+      width: 10,
+      height: 100,
+      speed: 5,
+      color: '#FF0000'
+    };
+
+    let paddle2 = {
+      x: canvas.width - 30,
+      y: canvas.height / 2 - 50,
+      width: 10,
+      height: 100,
+      speed: 5,
+      color: '#0000FF'
+    };
+
+    let ball = {
+      x: canvas.width / 2,
+      y: canvas.height / 2,
+      radius: 10,
+      speedX: 0,
+      speedY: 0,
+      color: '#00FF00'
+    };
+
+    let keysDown = {
+      w: false,
+      s: false,
+      up: false,
+      down: false
+    };
+
+    let score1 = 0;
+    let score2 = 0;
+    let player1Name = '';
+    let player2Name = '';
+    let numberOfRounds = 0;
+    let currentRound = 1;
+    let roundScores = {};
+    let gameOver = false;
+    let loopRunning = false;
+
+    // Function to draw the paddles and ball
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = paddle1.color;
+      ctx.fillRect(paddle1.x, paddle1.y, paddle1.width, paddle1.height);
+      ctx.fillStyle = paddle2.color;
+      ctx.fillRect(paddle2.x, paddle2.y, paddle2.width, paddle2.height);
+      ctx.fillStyle = ball.color;
+      ctx.beginPath();
+      ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+      ctx.fill();
+      if (gameOver) {
+        ctx.font = '72px Arial';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillStyle = 'red';
+        ctx.fillText('Game Over!', canvas.width / 2, canvas.height / 2);
+        ctx.font = '36px Arial';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillStyle = 'black';
+        let winner = determineWinner();
+        ctx.fillText(`Winner: ${winner}`, canvas.width / 2, canvas.height / 2 + 50);
+      }
+    }
+
+    // Function to update the position of the paddles and ball
+    function update() {
+      // Update the position of the paddles
+      if (keysDown.w) {
+        paddle1.y -= paddle1.speed;
+      }
+      if (keysDown.s) {
+        paddle1.y += paddle1.speed;
+      }
+      if (keysDown.up) {
+        paddle2.y -= paddle2.speed;
+      }
+      if (keysDown.down) {
+        paddle2.y += paddle2.speed;
+      }
+
+      // Prevent paddles from moving off the screen
+      if (paddle1.y < 0) {
+        paddle1.y = 0;
+      } else if (paddle1.y > canvas.height - paddle1.height) {
+        paddle1.y = canvas.height - paddle1.height;
+      }
+      if (paddle2.y < 0) {
+        paddle2.y = 0;
+      } else if (paddle2.y > canvas.height - paddle2.height) {
+        paddle2.y = canvas.height - paddle2.height;
+      }
+
+      // Update the position of the ball
+      ball.x += ball.speedX;
+      ball.y += ball.speedY;
+
+      // Check for collisions with the paddles and edges of the canvas
+      if (ball.x - ball.radius < paddle1.x + paddle1.width && ball.y > paddle1.y && ball.y < paddle1.y + paddle1.height) {
+        ball.speedX = -ball.speedX;
+        ball.x = paddle1.x + paddle1.width + ball.radius;  
+      }
+      if (ball.x + ball.radius > paddle2.x && ball.y > paddle2.y && ball.y < paddle2.y + paddle2.height) {
+        ball.speedX = -ball.speedX;
+        ball.x = paddle2.x - ball.radius;  
+      }
+      if (ball.y - ball.radius < 0 || ball.y + ball.radius > canvas.height) {
+        ball.speedY = -ball.speedY;
+      }
+      if (ball.x - ball.radius < 0) {
+        score2++;
+        player2Score.textContent = `${player2Name}: ${score2}`;
+        ball.x = canvas.width / 2;
+        ball.y = canvas.height / 2;
+        ball.speedX = ballSpeed;
+        ball.speedY = ballSpeed;
+      }
+      if (ball.x + ball.radius > canvas.width) {
+        score1++;
+        player1Score.textContent = `${player1Name}: ${score1}`;
+        ball.x = canvas.width / 2;
+        ball.y = canvas.height / 2;
+        ball.speedX = -ballSpeed;
+        ball.speedY = -ballSpeed;
+      }
+
+      // Check if the current round is over
+      if (score1 >= 10 || score2 >= 10) {
+        roundScores[currentRound] = { [player1Name]: score1, [player2Name]: score2 };
+        score1 = 0;
+        score2 = 0;
+        ball.x = canvas.width / 2;
+        ball.y = canvas.height / 2;
+        ball.speedX = ballSpeed;
+        ball.speedY = ballSpeed;
+        currentRound++;
+        roundNumber.textContent = `Round ${currentRound} of ${numberOfRounds}`;
+        if (currentRound > numberOfRounds) {
+          gameOver = true;
+        }
+      }
+    }
+
+    // Function to determine the winner
+    function determineWinner() {
+      let winner = '';
+      for (let round in roundScores) {
+        if (roundScores[round][player1Name] > roundScores[round][player2Name]) {
+          winner = player1Name;
+        } else if (roundScores[round][player1Name] < roundScores[round][player2Name]) {
+          winner = player2Name;
+        }
+      }
+      if (winner === '') {
+        winner = 'Tie';
+      }
+      return winner;
+    }
+
+    // Add event listeners for key presses
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'w') {
+        keysDown.w = true;
+      }
+      if (event.key === 's') {
+        keysDown.s = true;
+      }
+      if (event.key === 'ArrowUp') {
+        keysDown.up = true;
+      }
+      if (event.key === 'ArrowDown') {
+        keysDown.down = true;
+      }
+    });
+
+    document.addEventListener('keyup', function(event) {
+      if (event.key === 'w') {
+        keysDown.w = false;
+      }
+      if (event.key === 's') {
+        keysDown.s = false;
+      }
+      if (event.key === 'ArrowUp') {
+        keysDown.up = false;
+      }
+      if (event.key === 'ArrowDown') {
+        keysDown.down = false;
+      }
+    });
+
+    // Add event listener for form submission
+    let ballSpeed = 5;
+    playerNamesForm.addEventListener('submit', function(event) {
+      event.preventDefault();
+      player1Name = player1NameInput.value.trim() ? player1NameInput.value.trim() : 'Player 1';
+      player2Name = player2NameInput.value.trim() ? player2NameInput.value.trim() : 'Player 2';
+      paddle1.color = player1ColorInput.value ? player1ColorInput.value : '#FF0000';
+      paddle2.color = player2ColorInput.value ? player2ColorInput.value : '#0000FF';
+      ball.color = ballColorInput.value ? ballColorInput.value : '#00FF00';
+      ballSpeed = parseInt(ballSpeedInput.value);
+      if (isNaN(ballSpeed) || ballSpeed < 1) {
+        ballSpeed = 5;
+      }
+      numberOfRounds = parseInt(numberOfRoundsInput.value);
+      if (numberOfRounds < 1) {
+        numberOfRounds = 3;
+      }
+      ball.speedX = ballSpeed;
+      ball.speedY = ballSpeed;
+      roundNumber.textContent = `Round ${currentRound} of ${numberOfRounds}`;
+      player1Score.textContent = `${player1Name}: 0`;
+      player2Score.textContent = `${player2Name}: 0`;
+      landingPage.style.display = 'none';
+      gameContainer.style.display = 'block';
+      modal.style.display = 'none';
+      loop();
+    });
+
+    // Main loop
+    function loop() {
+      if (!gameOver) {
+        update();
+        draw();
+        requestAnimationFrame(loop);
+      } else {
+        draw();
+      }
+    }
+
+    // Resize event listener
+    window.addEventListener('resize', function() {
+      canvas.width = window.innerWidth - 40;
+      paddle2.x = canvas.width - 30;
+    });
+  </script>
+</body>
+</html>
