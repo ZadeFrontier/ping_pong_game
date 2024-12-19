@@ -1,7 +1,10 @@
 ```markdown
 # Ping Pong Game Streamlit App
 
-[Link Text]([https://www.example.com](https://larvapingpong.streamlit.app/))
+## Screenshots
+![image](https://github.com/user-attachments/assets/7f44bc46-c6ee-45b2-baed-1ec131c30a4e)
+![image](https://github.com/user-attachments/assets/eeb683fb-9288-42c4-a603-e1de002c083b)
+[Visit Site to Play] ([https://www.example.com](https://larvapingpong.streamlit.app/))
 
 
 This Streamlit app embeds an interactive Ping Pong game built using HTML, CSS, and JavaScript. The game adjusts to the size of the browser window, making it playable on both small screens (e.g., phones) and large displays.
@@ -41,9 +44,7 @@ The app uses Streamlit's `components.html` to embed the Ping Pong game into a St
 - **Game Settings**: Edit the `ping_pong.html` file to change colors, speeds, or other game configurations.
 - **App Layout**: Modify the Streamlit app (`app.py`) to adjust the title, layout, or embedded frame dimensions.
 
-## Screenshots
-![image](https://github.com/user-attachments/assets/7f44bc46-c6ee-45b2-baed-1ec131c30a4e)
-![image](https://github.com/user-attachments/assets/eeb683fb-9288-42c4-a603-e1de002c083b)
+
 
 
 ## License
