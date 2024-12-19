@@ -39,7 +39,9 @@ The app uses Streamlit's `components.html` to embed the Ping Pong game into a St
 - **App Layout**: Modify the Streamlit app (`app.py`) to adjust the title, layout, or embedded frame dimensions.
 
 ## Screenshots
-![Screenshot of the Ping Pong Game](screenshot.png) <!-- Add an actual screenshot if available -->
+![image](https://github.com/user-attachments/assets/7f44bc46-c6ee-45b2-baed-1ec131c30a4e)
+![image](https://github.com/user-attachments/assets/eeb683fb-9288-42c4-a603-e1de002c083b)
+
 
 ## License
 This project is licensed under the MIT License. Feel free to use, modify, and distribute it as per the license terms.
