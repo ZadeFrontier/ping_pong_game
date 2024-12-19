@@ -48,7 +48,3 @@ This project is licensed under the MIT License. Feel free to use, modify, and di
 - The Ping Pong game is created using HTML, CSS, and JavaScript.
 - Thanks to Streamlit for providing an easy-to-use framework for building interactive web apps.
 ```
-
-### Next Steps:
-- Add a screenshot of your app in action and name it `screenshot.png`.
-- Replace the placeholder "MIT License" with the appropriate license for your project, if necessary.
