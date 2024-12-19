@@ -1,5 +1,3 @@
-Here’s a sample `README.md` file for your Streamlit app:
-
 ```markdown
 # Ping Pong Game Streamlit App
 
