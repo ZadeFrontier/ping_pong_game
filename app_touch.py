@@ -2,7 +2,7 @@ import streamlit as st
 import streamlit.components.v1 as components
 
 # Load the HTML content
-with open("ping_pong.html", "r") as file:
+with open("ping_pong_touch.html", "r") as file:
     html_content = file.read()
 
 # Define the Streamlit app
